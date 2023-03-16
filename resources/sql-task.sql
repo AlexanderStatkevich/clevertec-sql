@@ -155,3 +155,14 @@ FROM customers AS c
 WHERE email LIKE 'email%'
 GROUP BY last_name
 HAVING COUNT(last_name) > 2;
+
+--Вывести имя пассажира и его контактные данные, при условии, что имя пассажира
+-- DENIS его номер телефона начинается с 703 и он летит бизнес классом стоимостью более 40000
+
+SELECT passenger_name, contact_data
+FROM tickets AS t
+         INNER JOIN ticket_flights tf ON t.ticket_no = tf.ticket_no
+    AND t.passenger_name LIKE 'DENIS_%'
+    AND t.contact_data ->> ('phone') LIKE '+703%'
+WHERE tf.fare_conditions = 'Business'
+  AND tf.amount > 40000;
